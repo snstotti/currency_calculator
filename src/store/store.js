@@ -11,7 +11,14 @@ class CurrencyConvert {
     }
 
     setListPairs() {
-        return currency.getList().then(res=>this.listPairs.push(...res.data.data))
+        return currency.getList().then(res=>{
+            // let arr = {
+            //     currency: [...res.data.data],
+            //     title: 
+            // }
+            
+            return this.listPairs.push(...res.data.data)
+        })
     }
    
 }

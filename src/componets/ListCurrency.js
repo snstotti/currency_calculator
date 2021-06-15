@@ -4,19 +4,38 @@ import store from "../store/store"
 
 
 
-const ListCurrency = observer(()=>{
-    
+const ListCurrency = observer(() => {
+
     useEffect(() => {
         store.setListPairs()
-    },[])
-    
-    let list = store.listPairs.map(el=> (<li key={el}>{el}</li>))
+    }, [])
 
-    if(!store.listPairs.length) return '...loading'
 
-    return(
-        <div>
-            <ul>{list}</ul>
+    let list = store.listPairs.map((el, i) => {
+        return <tr key={i}>
+            <td >{el}</td>
+        </tr>
+    })
+
+    if (!store.listPairs.length) return '...loading'
+
+    return (
+        <div className="d-flex justify-content-center">
+            <div className="card w-50 d-flex justify-content-center">
+                <div className="card-body">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Валюта</th>
+                                <th scope="col">Цена</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {list}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     )
 })
