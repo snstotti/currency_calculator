@@ -1,0 +1,13 @@
+/* 
+.list-currency{
+   justify-content: center;
+    
+} 
+
+ @media (max-width : 48.063em) {
+    .list-currency{
+        justify-content: center;
+        flex-direction: column;
+
+    }
+}  */

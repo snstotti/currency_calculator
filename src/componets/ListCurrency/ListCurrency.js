@@ -1,28 +1,35 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react-lite"
-import store from "../store/store"
-import CurrencySelection from "./CurrencySelection/CurrencySelection"
+import "./listCurrency.css"
+import store from "../../store/store"
+import CurrencySelection from "../CurrencySelection/CurrencySelection"
 
 
 
-const ListCurrency = observer(() => {
+const ListCurrency = observer(({currentCurrency}) => {
 
     useEffect(() => {
         store.setListPairs()
-    }, [])
+        store.setListCurrency()
+    }, [currentCurrency])
 
+   
 
     let list = store.listPairs.map((el, i) => {
         return <tr key={i}>
             <td >{el}</td>
         </tr>
     })
-
-    if (!store.listPairs.length) return '...loading'
-
+    
+    if (!store.listPairs.length || !store.listCurrency.length ) return '...loading'
+    
     return (
-        <div className="d-flex justify-content-evenly">
-            <CurrencySelection />
+        <div className="d-flex justify-content-center list-currency">
+            <CurrencySelection 
+                listCurrency={store.listCurrency}
+                handleCurrentCurrency={store.handleCurrentCurrency}
+                currentCurrency={store.currentCurrency}
+             />
             <div className="card w-50">
                 <div className="card-body">
                     <table className="table">
