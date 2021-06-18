@@ -1,19 +1,19 @@
 import Axios from 'axios';
 
 const apiKey = '&key=c40a0980435c5dba2f32f789db39a735'
-const listCurrencies = '?get=currency_list'
+const base = '?base='
 const getRates = '?get=rates'
 const listPairs = '&pairs='
 
 
 const request_currencies = Axios.create({
-    baseURL: 'https://currate.ru/api/',
+    baseURL: 'https://api.exchangerate.host/latest',
     responseType: "json"
 })
 
 export const currency = {
-    getList(){
-        return request_currencies.get('https://currate.ru/api/' + listCurrencies + apiKey)
+    getList(rate){
+        return request_currencies.get(base + rate)
         .then(res=> res)
     }
 }

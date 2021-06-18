@@ -9,26 +9,29 @@ import CurrencySelection from "../CurrencySelection/CurrencySelection"
 const ListCurrency = observer(({currentCurrency}) => {
 
     useEffect(() => {
-        store.setListPairs()
-        store.setListCurrency()
+        store.setListPairs(currentCurrency)
+        
     }, [currentCurrency])
 
    
 
-    let list = store.listPairs.map((el, i) => {
+    let list = store.listCurrency.map((el, i) => {
         return <tr key={i}>
-            <td >{el}</td>
+            <td>{el.title}</td>
+            <td>{el.price}</td>
         </tr>
     })
+  
     
-    if (!store.listPairs.length || !store.listCurrency.length ) return '...loading'
+    
+    if (!store.listCurrency.length ) return '...loading'
     
     return (
         <div className="d-flex justify-content-center list-currency">
             <CurrencySelection 
                 listCurrency={store.listCurrency}
                 handleCurrentCurrency={store.handleCurrentCurrency}
-                currentCurrency={store.currentCurrency}
+                currentCurrency={currentCurrency}
              />
             <div className="card w-50">
                 <div className="card-body">
