@@ -1,9 +1,9 @@
-import { action, makeAutoObservable } from "mobx"
+import { action, makeAutoObservable, observable } from "mobx"
 import { currency } from "../api/api"
 
 
 class CurrencyConvert {
-
+    
     listPrice = [] 
     listCurrency = []
     currentCurrency = {currency: 'RUB'}
@@ -13,8 +13,9 @@ class CurrencyConvert {
     }
 
     setListPairs(rate) {
-        return currency.getList(rate).then(action(data => {
-            
+
+         currency.getList(rate).then(action(data => {
+            this.listCurrency=[]
             let obj = data.data.rates
             for (var prop in obj) {
                 let newObj = {
@@ -24,7 +25,7 @@ class CurrencyConvert {
                 this.listCurrency.push(newObj)
             }
             
-
+            console.log('render list:', this.listCurrency.length);
         }))
         
     }
@@ -36,10 +37,10 @@ class CurrencyConvert {
     // }
 
     handleCurrentCurrency=(item)=>{
-
+        this.item = item
         let newObj = {currency: item}
         
-        this.currentCurrency = newObj
+        this.currentCurrency.currency = this.item
         
     }
 
