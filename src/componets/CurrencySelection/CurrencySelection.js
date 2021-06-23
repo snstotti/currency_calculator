@@ -1,35 +1,36 @@
-import React, { useState } from 'react'
-import { observer } from "mobx-react-lite"
+import { inject } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
+import React from 'react'
 
-export default function CurrencySelection({listCurrency,setstate,currentValue}) {
+const CurrencySelection =  inject('value')(observer(({value,setSelect,newValue})=> {
 
-    // const [state, setstate] = useState('')
-   
+    const {listSelectCurrency,handleCurrentCurrency,currentCurrency} = value
+
+    // const [select,setSelect] = React.useState(currentCurrency)
+
     const handleSelect =(e)=>{
-        let item = e.target.innerHTML
-        setstate(item)
+        let item = e.target.value
+        setSelect(item)
+        // handleCurrentCurrency(item)
+        // value.currentCurrency = item
+        // console.log(item);
     }
-    // console.log(props);
+   
     
-    let itemSelect = listCurrency.map((el,i)=>{
+    let itemSelect = listSelectCurrency.map(el=>{
         return (
-            <li 
-                onClick={(e)=>handleSelect(e)} 
-                key={i} 
-                className="dropdown-item" 
-                value={el.title}>{el.title}
-            </li>
+            <option 
+                
+                key={el} 
+                
+                value={el}> {el} </option>
         )
     })
    
     return (
-        <div className="dropdown me-md-3 ">
-            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            {currentValue}
-            </button>  
-            <ul className="dropdown-menu" style={{minWidth:'auto'}} aria-labelledby="dropdownMenuButton">
-                {itemSelect}
-            </ul>
-        </div>
+        <select onChange={(e)=>handleSelect(e)} className="custom-select" style={{height: 'fit-content'}}>
+            {itemSelect}
+        </select>
     )
-}
+}))
+export default CurrencySelection

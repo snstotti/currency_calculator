@@ -1,40 +1,28 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { observer } from "mobx-react-lite"
 import "./listCurrency.css"
-import store from "../../store/store"
 import CurrencySelection from "../CurrencySelection/CurrencySelection"
 import { inject } from "mobx-react"
+import { observable } from "mobx"
 
 
 
-const ListCurrency = inject('value')(observer(({value}) => {
-    
-    const [state, setstate] = React.useState('RUB')
+const ListCurrency = ({listCurrency,setSelect,newValue}) => {
 
-    useEffect(() => {
-        value.setListPairs(state)
-        
-    }, [state,value.listCurrency])
-
-
-    let list = value.listCurrency.map((el, i) => {
+    let list = listCurrency.map((el, i) => {
         return <tr key={i}>
             <td>{el.title}</td>
             <td>{el.price}</td>
         </tr>
     })
   
+    // console.log(listCurrency);
     
-    
-    if (!value.listCurrency.length ) return '...loading'
+    // if (!value.listCurrency.length ) return '...loading'
     
     return (
         <div className="d-flex justify-content-center list-currency">
-            <CurrencySelection 
-                listCurrency={value.listCurrency}
-                currentValue={state}
-                setstate={setstate}
-             />
+            <CurrencySelection setSelect={setSelect} newValue={newValue} />
             <div className="card w-50">
                 <div className="card-body">
                     <table className="table">
@@ -52,6 +40,6 @@ const ListCurrency = inject('value')(observer(({value}) => {
             </div>
         </div>
     )
-}))
+}
 
-export default ListCurrency
+export default observer(ListCurrency)

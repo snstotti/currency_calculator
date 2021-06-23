@@ -1,49 +1,68 @@
-import { action, makeAutoObservable, observable } from "mobx"
+import { action,  makeAutoObservable, observable } from "mobx"
+import axios from 'axios';
 import { currency } from "../api/api"
 
 
 class CurrencyConvert {
     
-    listPrice = [] 
+    listSelectCurrency = [] 
     listCurrency = []
-    currentCurrency = {currency: 'RUB'}
+    currentCurrency = 'RUB'
+
+    
+  
 
     constructor() {
-        makeAutoObservable(this)
+        makeAutoObservable(this,{
+            handleCurrentCurrency: action.bound,
+            setListPrice: action.bound,
+            setListCurrency: action.bound,
+        })
     }
 
-    setListPairs(rate) {
-
-         currency.getList(rate).then(action(data => {
-            this.listCurrency=[]
-            let obj = data.data.rates
-            for (var prop in obj) {
-                let newObj = {
-                    price:obj[prop],
-                    title:prop
+    // получаем список валют и их цену относительно базовой валюты
+    setListPrice(rate) {
+        let baseURL = 'https://api.exchangerate.host/latest'
+        const simbols = '&symbols=USD,EUR,RUB'
+        const base = '?base='
+        
+       
+        axios.get(baseURL + base + rate + simbols)
+            .then(action(res => {
+                
+                let obj = res.data.rates
+                for (var prop in obj) {
+                    let newObj = {
+                        price: obj[prop],
+                        title: prop
+                    }
+                    this.listCurrency.push(newObj)
                 }
-                this.listCurrency.push(newObj)
-            }
-            
-            console.log('render list:', this.listCurrency.length);
-        }))
-        
+            }))
+            this.listCurrency.length=0
     }
 
-    // setListCurrency(){
-    //     return currency.getList().then(data=>{
-            
-    //     })
-    // }
-
-    handleCurrentCurrency=(item)=>{
-        this.item = item
-        let newObj = {currency: item}
+    setListCurrency(){
+        let baseURL = 'https://api.exchangerate.host/latest'
+        const simbols = '?symbols=USD,EUR,RUB'
         
-        this.currentCurrency.currency = this.item
-        
+        axios.get(baseURL + simbols)
+            .then(action(res => {
+                
+                let obj = res.data.rates
+                for (var prop in obj) {
+                    
+                    this.listSelectCurrency.push(prop)
+                }
+                this.listSelectCurrency=[]
+            }))
     }
 
+    handleCurrentCurrency(item){
+        return this.currentCurrency = item
+        // console.log(this.currentCurrency);
+    }
+   
    
 }
 
