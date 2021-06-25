@@ -20,10 +20,10 @@ class CurrencyConvert {
         })
     }
 
-    // получаем список валют и их цену относительно базовой валюты
+    // получаем список валют и их цену относительно базовой валюты для таблицы
     setListPrice(rate) {
         let baseURL = 'https://api.exchangerate.host/latest'
-        const simbols = '&symbols=USD,EUR,RUB'
+        const simbols = '&symbols=USD,EUR,RUB,JPY,GBP,CHF,CAD,AUD,NZD'
         const base = '?base='
         
        
@@ -42,9 +42,10 @@ class CurrencyConvert {
             this.listCurrency.length=0
     }
 
-    setListCurrency(){
+    // получаем список валют для выпадающего списка
+    setListCurrency(elem){
         let baseURL = 'https://api.exchangerate.host/latest'
-        const simbols = '?symbols=USD,EUR,RUB'
+        const simbols = '?symbols=USD,EUR,RUB,JPY,GBP,CHF,CAD,AUD,NZD'
         
         axios.get(baseURL + simbols)
             .then(action(res => {
@@ -53,17 +54,12 @@ class CurrencyConvert {
                 for (var prop in obj) {
                     
                     this.listSelectCurrency.push(prop)
+
                 }
                 this.listSelectCurrency=[]
             }))
     }
 
-    handleCurrentCurrency(item){
-        return this.currentCurrency = item
-        // console.log(this.currentCurrency);
-    }
-   
-   
 }
 
 const store = new CurrencyConvert()

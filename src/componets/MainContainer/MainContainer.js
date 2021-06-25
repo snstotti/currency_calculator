@@ -11,17 +11,14 @@ import Menu from '../Menu/Menu'
 export default inject('value')(observer(function MainContainer({value}) {
     const {listCurrency,currentCurrency,setListCurrency,setListPrice}=value
 
-    const [select,setSelect] = React.useState('RUB')
+    const [select,setSelect] = React.useState(currentCurrency)
 
     
    
     React.useEffect(() => {
-        setListCurrency()
+        setListCurrency(currentCurrency)
         setListPrice(select)
-        // console.log(select);
-    }, [select,listCurrency])
-
-    // console.log(select);
+    }, [select,listCurrency,currentCurrency])
     
     // if(!listCurrency.length)return '...Loading'
     return (
