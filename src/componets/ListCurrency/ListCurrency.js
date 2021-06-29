@@ -2,9 +2,6 @@ import React from "react"
 import { observer } from "mobx-react-lite"
 import "./listCurrency.css"
 import CurrencySelection from "../CurrencySelection/CurrencySelection"
-import { inject } from "mobx-react"
-import { observable } from "mobx"
-
 
 
 const ListCurrency = ({listCurrency,setSelect,newValue}) => {

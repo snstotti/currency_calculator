@@ -12,7 +12,10 @@ const MyStore = {
   setListPrice: store.setListPrice,
   listCurrency: store.listCurrency,
   currentCurrency: store.currentCurrency,
-  handleCurrentCurrency: store.handleCurrentCurrency
+  handleCurrentCurrency: store.handleCurrentCurrency,
+  getPrice: store.getPrice,
+  currencyPrice: store.currencyPrice,
+  currency: store.currency,
 }
 
 

@@ -9,32 +9,41 @@ import Menu from '../Menu/Menu'
 
 
 export default inject('value')(observer(function MainContainer({value}) {
-    const {listCurrency,currentCurrency,setListCurrency,setListPrice}=value
+    const {listCurrency,currentCurrency,setListCurrency,setListPrice,currencyPrice,getPrice,currency}=value
 
     const [select,setSelect] = React.useState(currentCurrency)
+    const [currencyCalc,setCurrencyCalc] = React.useState(currency)
+    const [price,setPrice] = React.useState(0)
 
     
    
     React.useEffect(() => {
         setListCurrency(currentCurrency)
         setListPrice(select)
-    }, [select,listCurrency,currentCurrency])
+        setPrice(getPrice(currencyCalc))
+    }, [select,listCurrency,currentCurrency,currency])
+
+    // console.log(getPrice('AUD'));
+    console.log(currencyCalc, currencyPrice);
     
-    // if(!listCurrency.length)return '...Loading'
     return (
        
             <div className="container">
-
                 <div className="mb-3">
                     <Menu />
                 </div>
-
                 <Switch>
                     <Route path='/list_currency' render={() => <ListCurrency 
                         setSelect={setSelect} 
                         newValue={select} 
-                        listCurrency={listCurrency}/>} />
-                    <Route path='/calculator' component={CurrencyCalc} />
+                        listCurrency={listCurrency}/>} 
+                    />
+                    <Route path='/calculator' render={()=><CurrencyCalc 
+                        currencyPrice={currencyPrice}
+                        getPrice={getPrice}
+                        newValue={currencyCalc}
+                        setSelect={setCurrencyCalc}
+                    />} />
                     <Redirect from='/' to='/list_currency' />
                 </Switch>
             </div>

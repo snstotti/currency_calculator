@@ -1,6 +1,5 @@
-import { action,  makeAutoObservable, observable } from "mobx"
+import { action,  makeAutoObservable } from "mobx"
 import axios from 'axios';
-import { currency } from "../api/api"
 
 
 class CurrencyConvert {
@@ -8,6 +7,8 @@ class CurrencyConvert {
     listSelectCurrency = [] 
     listCurrency = []
     currentCurrency = 'RUB'
+    currencyPrice = 0
+    currency = 'AUD'
 
     
   
@@ -17,6 +18,7 @@ class CurrencyConvert {
             handleCurrentCurrency: action.bound,
             setListPrice: action.bound,
             setListCurrency: action.bound,
+            // getPrice: action.bound,
         })
     }
 
@@ -25,8 +27,7 @@ class CurrencyConvert {
         let baseURL = 'https://api.exchangerate.host/latest'
         const simbols = '&symbols=USD,EUR,RUB,JPY,GBP,CHF,CAD,AUD,NZD'
         const base = '?base='
-        
-       
+
         axios.get(baseURL + base + rate + simbols)
             .then(action(res => {
                 
@@ -57,6 +58,23 @@ class CurrencyConvert {
 
                 }
                 this.listSelectCurrency=[]
+            }))
+    }
+
+    getPrice=(currency)=> {
+        let baseURL = 'https://api.exchangerate.host/latest'
+        const simbols = '?symbols='
+        
+        axios.get(baseURL + simbols + currency)
+            .then(action(res => {
+                
+                let obj = res.data.rates
+                for (var prop in obj) {
+                   
+                    this.currencyPrice = +obj[prop]
+                }
+                
+                return this.currencyPrice 
             }))
     }
 
