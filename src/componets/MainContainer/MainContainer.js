@@ -1,5 +1,4 @@
-import { inject } from 'mobx-react'
-import { observer } from 'mobx-react-lite'
+import { inject, observer } from 'mobx-react'
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import CurrencyCalc from '../CurrencyCalc/CurrencyCalc'
@@ -8,23 +7,26 @@ import Menu from '../Menu/Menu'
 
 
 
+
 export default inject('value')(observer(function MainContainer({value}) {
-    const {listCurrency,currentCurrency,setListCurrency,setListPrice,currencyPrice,getPrice,currency}=value
+    const {listCurrency,currentCurrency,setListCurrency,setListPrice,currencyPrice,getPrice}=value
 
     const [select,setSelect] = React.useState(currentCurrency)
-    const [currencyCalc,setCurrencyCalc] = React.useState(currency)
-    const [price,setPrice] = React.useState(0)
+    const [currency,setCurrency] = React.useState('RUB')
+    // const [price,setPrice] = React.useState(currencyPrice)
 
     
    
     React.useEffect(() => {
         setListCurrency(currentCurrency)
         setListPrice(select)
-        setPrice(getPrice(currencyCalc))
-    }, [select,listCurrency,currentCurrency,currency])
+        getPrice(currency)
+        
+    }, [select,listCurrency,currentCurrency,currency,currencyPrice.price])
+    // console.log(currency);
+    
 
-    // console.log(getPrice('AUD'));
-    console.log(currencyCalc, currencyPrice);
+    console.log(currency ,currencyPrice.price);
     
     return (
        
@@ -41,8 +43,8 @@ export default inject('value')(observer(function MainContainer({value}) {
                     <Route path='/calculator' render={()=><CurrencyCalc 
                         currencyPrice={currencyPrice}
                         getPrice={getPrice}
-                        newValue={currencyCalc}
-                        setSelect={setCurrencyCalc}
+                        newValue={currency}
+                        setSelect={setCurrency}
                     />} />
                     <Redirect from='/' to='/list_currency' />
                 </Switch>

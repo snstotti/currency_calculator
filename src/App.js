@@ -19,6 +19,7 @@ const MyStore = {
 }
 
 
+
 export default observer(function App () {
   
   return (

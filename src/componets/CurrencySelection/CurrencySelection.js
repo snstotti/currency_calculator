@@ -1,8 +1,8 @@
-import { inject } from 'mobx-react'
-import { observer } from 'mobx-react-lite'
+import { inject, observer } from 'mobx-react'
 import React from 'react'
 
-const CurrencySelection =  inject('value')(observer(({value,setSelect,newValue})=> {
+
+const CurrencySelection =  ({value,setSelect,newValue})=> {
 
     const {listSelectCurrency} = value
 
@@ -33,5 +33,5 @@ const CurrencySelection =  inject('value')(observer(({value,setSelect,newValue})
             {itemSelect}
         </select>
     )
-}))
-export default CurrencySelection
+}
+export default inject('value')(observer(CurrencySelection))
