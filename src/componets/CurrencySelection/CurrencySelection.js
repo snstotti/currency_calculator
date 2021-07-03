@@ -21,7 +21,7 @@ const CurrencySelection =  ({value,setSelect,newValue})=> {
         })
         return newArr
     }
-    
+   
     let itemSelect = sortArr(listSelectCurrency,newValue).map(el=>{
         return(
             <option key={el} value={el}>{el}</option>
@@ -29,7 +29,10 @@ const CurrencySelection =  ({value,setSelect,newValue})=> {
     })
     
     return (
-        <select onChange={(e)=>handleSelect(e)} className='custom-select' style={{height: 'fit-content'}}>
+        <select
+            onChange={handleSelect}
+            className='custom-select'
+            style={{ height: 'fit-content' }}>
             {itemSelect}
         </select>
     )

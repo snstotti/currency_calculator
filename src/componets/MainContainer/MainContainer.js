@@ -5,31 +5,24 @@ import CurrencyCalc from '../CurrencyCalc/CurrencyCalc'
 import ListCurrency from '../ListCurrency/ListCurrency'
 import Menu from '../Menu/Menu'
 
-
-
-
 export default inject('value')(observer(function MainContainer({value}) {
+
     const {listCurrency,currentCurrency,setListCurrency,setListPrice,currencyPrice,getPrice}=value
 
-    const [select,setSelect] = React.useState(currentCurrency)
-    const [currency,setCurrency] = React.useState('RUB')
-    // const [price,setPrice] = React.useState(currencyPrice)
+    const [select,setSelect] = React.useState(currentCurrency) // значение селекта таблицы
+    const [currencyConverted,setCurrencyConverted] = React.useState('RUB') // конвертируемая валюта
+    const [baseCurrency,setBaseCurrency] = React.useState('USD') // базовая валюта
+    const [inputValue,setInputValue] = React.useState(1) // значение формы по умолчанию (1 долар)
 
     
    
     React.useEffect(() => {
-        setListCurrency(currentCurrency)
+        setListCurrency(select)
         setListPrice(select)
-        getPrice(currency)
-        
-    }, [select,listCurrency,currentCurrency,currency,currencyPrice.price])
-    // console.log(currency);
-    
-
-    console.log(currency ,currencyPrice.price);
-    
+        getPrice(currencyConverted,baseCurrency)
+    }, [select,currentCurrency,currencyConverted,baseCurrency,currencyPrice.price])
+   
     return (
-       
             <div className="container">
                 <div className="mb-3">
                     <Menu />
@@ -41,10 +34,13 @@ export default inject('value')(observer(function MainContainer({value}) {
                         listCurrency={listCurrency}/>} 
                     />
                     <Route path='/calculator' render={()=><CurrencyCalc 
-                        currencyPrice={currencyPrice}
-                        getPrice={getPrice}
-                        newValue={currency}
-                        setSelect={setCurrency}
+                        currencyPrice={currencyPrice.price}
+                        inputValue={inputValue}
+                        setInputValue={setInputValue}
+                        currencyConverted={currencyConverted}
+                        setCurrencyConverted={setCurrencyConverted}
+                        baseCurrency={baseCurrency}
+                        setBaseCurrency={setBaseCurrency}
                     />} />
                     <Redirect from='/' to='/list_currency' />
                 </Switch>

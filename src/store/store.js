@@ -1,4 +1,4 @@
-import { action,  makeAutoObservable, observable, runInAction } from "mobx"
+import { action,  makeAutoObservable } from "mobx"
 import axios from 'axios';
 
 
@@ -11,10 +11,6 @@ class CurrencyConvert {
     listCurrency = []
     currentCurrency = 'RUB'
     currencyPrice = {price:0}
-    
-
-    
-  
 
     constructor() {
         makeAutoObservable(this,{
@@ -29,9 +25,9 @@ class CurrencyConvert {
     setListPrice(rate) {
         let baseURL = 'https://api.exchangerate.host/latest'
         const simbols = '&symbols=USD,EUR,RUB,JPY,GBP,CHF,CAD,AUD,NZD'
-        const base = '?base='
+        const base = `?base=${rate}`
 
-        axios.get(baseURL + base + rate + simbols)
+        axios.get(baseURL + base + simbols)
             .then(action(res => {
                 
                 let obj = res.data.rates
@@ -56,27 +52,28 @@ class CurrencyConvert {
 
                 let obj = res.data.rates
                 for (var prop in obj) {
-
-                    this.listSelectCurrency.push(prop)
-
+                    if(prop === elem){
+                          this.listSelectCurrency.unshift(prop)
+                    }else{ this.listSelectCurrency.push(prop)}
+                   
                 }
                 this.listSelectCurrency = []
             }))
     }
 
-    getPrice(currency) {
+    // получаем цену валюты относительно базовой валюты для калькулятора
+    getPrice(currency,baseCurrency) {
         let baseURL = 'https://api.exchangerate.host/latest'
-        const simbols = '?symbols='
+        const simbols = `&symbols=${currency}`
+        const base = `?base=${baseCurrency}`
 
-        axios.get(baseURL + simbols + currency)
+        axios.get(baseURL + base  + simbols)
             .then(action(res => {
                 
                 let obj = res.data.rates
                 for (var prop in obj) {
                     this.currencyPrice.price = +obj[prop]
-
                 }
-                
             }))
             
     }

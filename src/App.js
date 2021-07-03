@@ -5,7 +5,6 @@ import { Provider } from 'mobx-react';
 import MainContainer from './componets/MainContainer/MainContainer';
 import { observer } from 'mobx-react-lite';
 
-
 const MyStore = {
   setListCurrency:store.setListCurrency,
   listSelectCurrency:store.listSelectCurrency,
@@ -18,10 +17,7 @@ const MyStore = {
   currency: store.currency,
 }
 
-
-
 export default observer(function App () {
-  
   return (
     <Provider value={MyStore}>
       <MainContainer/> 
